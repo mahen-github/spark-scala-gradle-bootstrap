@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+  "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+  "https://checkstyle.org/dtds/suppressions_1_3.dtd">
+
+<suppressions>
+  <suppress checks="Javadoc" files="[/\\]*/src/test[/\\]"/>
+  <suppress checks=".*" files="[/\\]*/build/generated-test-avro-java[/\\]"/>
+  <suppress checks=".*" files="[/\\]*/build/generated-main-avro-java[/\\]"/>
+</suppressions>

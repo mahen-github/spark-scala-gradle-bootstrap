@@ -1,0 +1,15 @@
+artifactory {
+	contextUrl = "${artifactory_contextUrl}"
+	publish {
+		repository {
+			repoKey = 'gradle-local'
+			username = artifactoryUsername
+			password = artifactoryPassword
+			maven = true
+		}
+		defaults {
+			publications("mavenJava")
+			publishArtifacts = true
+		}
+	}
+}

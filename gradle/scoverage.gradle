@@ -1,0 +1,17 @@
+scoverage {
+	check {
+		minimumRate = 0.5
+		coverageOutputXML = false
+		reportDir = file("$buildDir/scoverage-aggregate")
+	}
+	check {
+		minimumRate = 0.8
+		coverageOutputXML = false
+		reportDir = file("$buildDir/scoverage-aggregate")
+	}
+}
+
+check.dependsOn {
+	project.tasks.reportScoverage
+	project.tasks.reportTestScoverage
+}
