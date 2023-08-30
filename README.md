@@ -41,4 +41,4 @@ https://www.databricks.com/wp-content/uploads/2021/06/Ebook_8-Steps-V2.pdf
 # References
 
 https://github.com/spark-examples/spark-scala-examples
-> > > > > > > 002f78d (A Spark bootstrap project written in Scala with gradle as build tool.)
+
