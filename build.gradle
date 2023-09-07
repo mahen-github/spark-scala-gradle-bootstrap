@@ -1,20 +1,13 @@
-//buildscript {
-//    repositories {
-//        mavenCentral()
-//    }
-//}
 plugins {
-    id 'scala'
-    id 'application'
-    id "com.github.spotbugs-base"
-    id "com.diffplug.spotless"
-    id 'net.nemerosa.versioning'
-    id 'com.jfrog.artifactory'
-    id 'org.scoverage'
-    id 'template.spark.livyPlugin'
+	id 'scala'
+	id 'application'
+	id "com.github.spotbugs-base"
+	id "com.diffplug.spotless"
+	id 'net.nemerosa.versioning'
+	id 'com.jfrog.artifactory'
+	id 'org.scoverage'
 }
 
-//apply plugin: LivyPlugin
 apply plugin: 'java'
 apply plugin: 'scala'
 apply plugin: 'idea'
@@ -31,85 +24,81 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
-    provided
+	provided
 }
 
 sourceSets {
-    main {
-        compileClasspath += configurations.provided
-    }
+	main {
+		compileClasspath += configurations.provided
+	}
 }
 
 application {
-    mainClassName = 'dev.template.spark.Main'
+	mainClassName = 'dev.template.spark.Main'
 }
 
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    implementation "org.scalameta:scalafmt-core_${scalaVersion}:${scalafmt}"
-    implementation "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
-    implementation "org.apache.spark:spark-graphx_${scalaVersion}:${sparkVersion}"
-    implementation "org.apache.spark:spark-launcher_${scalaVersion}:${sparkVersion}"
-    implementation "org.apache.spark:spark-catalyst_${scalaVersion}:${sparkVersion}"
-    implementation "org.apache.spark:spark-streaming_${scalaVersion}:${sparkVersion}"
-    implementation "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
-    implementation "commons-io:commons-io:${commonsIO}"
+	implementation "org.scalameta:scalafmt-core_${scalaVersion}:${scalafmt}"
+	implementation "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-graphx_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-launcher_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-catalyst_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-streaming_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
 
-    implementation "org.apache.hadoop:hadoop-aws:${hadoopAWS}"
-    implementation "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
-    implementation "io.delta:delta-core_${scalaVersion}:${deltaVersion}"
-    implementation "com.google.guava:guava:31.1-jre"
-    compileOnly "org.scala-lang:scala-library:$scalaVersion"
-    compileOnly "org.scala-lang:scala-compiler:${scalaVersion}"
+	implementation "org.apache.hadoop:hadoop-aws:${hadoopAWS}"
+	implementation "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
+	implementation "io.delta:delta-core_${scalaVersion}:${deltaVersion}"
+	compileOnly "org.scala-lang:scala-library:$scalaVersion"
+	compileOnly "org.scala-lang:scala-compiler:${scalaVersion}"
 
-    testImplementation "org.scalatestplus:junit-4-13_${scalaVersion}:3.2.2.0"
-    testImplementation "junit:junit:${junitVersion}"
-    testRuntimeOnly "org.scala-lang.modules:scala-xml_${scalaVersion}:1.2.0"
-    testImplementation 'org.mockito:mockito-core:5.3.1'
+	testImplementation "org.scalatestplus:junit-4-13_${scalaVersion}:3.2.2.0"
+	testImplementation "junit:junit:${junitVersion}"
+	testRuntimeOnly "org.scala-lang.modules:scala-xml_${scalaVersion}:1.2.0"
+	testImplementation 'org.mockito:mockito-core:5.3.1'
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterApi}"
-    testImplementation "org.scalatest:scalatest_${scalaVersion}:${scalaTests}"
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterApi}"
+	testImplementation "org.scalatest:scalatest_${scalaVersion}:${scalaTests}"
 }
 
 
 jar {
-    classifier 'all'
-    manifest {
-        attributes 'Implementation-Title': title,
-                'Implementation-Version': archiveVersion,
-                'Main-Class': mainClassFile
-    }
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-    from files(sourceSets.main.output.classesDirs)
-    zip64 true
+	classifier 'all'
+	manifest {
+		attributes 'Implementation-Title': title,
+				'Implementation-Version': archiveVersion,
+				'Main-Class': mainClassFile
+	}
+	exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+	from files(sourceSets.main.output.classesDirs)
+	zip64 true
 }
 
 
 tasks.register('scalaTest', JavaExec) {
-    dependsOn['testClasses']
-    mainClass.set("org.scalatest.tools.Runner")
-    args = ['-R', 'build/classes/scala/test', '-o']
-    classpath = sourceSets.test.runtimeClasspath
+	dependsOn['testClasses']
+	mainClass.set("org.scalatest.tools.Runner")
+	args = ['-R', 'build/classes/scala/test', '-o']
+	classpath = sourceSets.test.runtimeClasspath
 }
 
 test.dependsOn scalaTest
 
 idea {
-    module {
-        // IntelliJ does not know about the standard idiom of provided as used in managing
-        // uber/shaded jar dependencies. Make it so!
-        scopes.PROVIDED.plus += [configurations.provided]
-    }
+	module {
+		// IntelliJ does not know about the standard idiom of provided as used in managing
+		// uber/shaded jar dependencies. Make it so!
+		scopes.PROVIDED.plus += [configurations.provided]
+	}
 }
 
-def runLivy = tasks.register("runLivy", template.spark.Publish) {
-    def avscTree = project.fileTree(allAvscs)
-
-    targetFiles.from(avscTree)
-    schemaFile.value(layout.projectDirectory.file("validator/avro-schema.json"))
+task sparkSubmit(type: Exec) {
+	commandLine 'sh', '-c', "/Users/e1xx/spark-3.4.1-bin-hadoop3/bin/spark-submit " +
+			"--class dev.template.spark.RddCollect" +
+			" --master spark://localhost:7077 build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar"
 }
-

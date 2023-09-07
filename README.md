@@ -8,9 +8,59 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 - [Gradle](https://gradle.org/)
 - [Scala](https://www.scala-lang.org/)
 
+## Libraries Included
+
+- JavaVersion=1.8
+- sparkVersion=3.4.1
+- scalaVersion=2.12
+- deltaVersion=2.4.0
+
 ### Build
 
 `./gradlew clean build`
+
+### Test
+
+	./gradlew check
+
+### Run TestCoverage
+
+	./gradlew reportTestScoverage
+
+## Run
+
+#### Run sparkSubmit task
+
+- Runs a `spark-submit` with class `dev.template.spark.RddCollect`
+
+./gradlew sparkSubmit
+
+#### Spark Submit commands in shell
+
+> A local spark instance must be up and running: http://localhost:8080/
+
+	spark-3.4.1-bin-hadoop3/bin/spark-submit \
+		--verbose  --class dev.template.spark.Main \
+		--packages io.delta:delta-core_2.12:2.4.0 \
+		--master spark://localhost:7077 \
+		--driver-memory 1g \
+		--executor-memory 1g \
+		--executor-cores 2 \
+		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar
+
+	spark-3.4.1-bin-hadoop3/bin/spark-submit --class dev.template.spark.RddCollect \
+		--master spark://localhost:7077 \
+		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar
+
+	spark-3.4.1-bin-hadoop3/bin/spark-submit --class dev.template.spark.CovidDataPartitioner \
+		--packages io.delta:delta-core_2.12:2.4.0 \
+		--master spark://localhost:7077 \
+		--driver-memory 1g \
+		--executor-memory 1g \
+		--executor-cores 2 \
+		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar \
+		src/main/resources/us-counties-recent.csv \
+		/tmp/partitioned-covid-data
 
 ### Coverage
 
@@ -18,11 +68,7 @@ https://github.com/scoverage/gradle-scoverage
 
 ## Functional Test Examples
 
-https://github.com/scoverage/gradle-scoverage/blob/master/build.gradle
-
-## Libraries Included
-
-- Spark - 3.4.1
+https://github.com/scoverage/gradle-scoverage/blob/master/build.gradle#L59C1-L59C52
 
 ## Useful Links
 
@@ -34,6 +80,8 @@ https://github.com/scoverage/gradle-scoverage/blob/master/build.gradle
 
 ## Issues or Suggestions
 
+https://github.com/mahen-github/spark-scala-gradle-bootstrap/issues
+
 # Learn Spark
 
 https://www.databricks.com/wp-content/uploads/2021/06/Ebook_8-Steps-V2.pdf
@@ -41,4 +89,3 @@ https://www.databricks.com/wp-content/uploads/2021/06/Ebook_8-Steps-V2.pdf
 # References
 
 https://github.com/spark-examples/spark-scala-examples
-
