@@ -38,6 +38,9 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 #### Spark Submit commands in shell
 
 > A local spark instance must be up and running: http://localhost:8080/
+> spark history server http://localhost:18080/
+
+#### Run the Main class reads people-example.csv and get the average age
 
 	spark-3.4.1-bin-hadoop3/bin/spark-submit \
 		--verbose  --class dev.template.spark.Main \
@@ -46,11 +49,16 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 		--driver-memory 1g \
 		--executor-memory 1g \
 		--executor-cores 2 \
-		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar
+		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar \
+		src/main/resources/people-example.csv \
+
+##### Run a simple app RddCollect with spark session in local
 
 	spark-3.4.1-bin-hadoop3/bin/spark-submit --class dev.template.spark.RddCollect \
 		--master spark://localhost:7077 \
 		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar
+
+##### Run CovidDataPartitioner app reads covid deaths in US counties and partitioned by reported date
 
 	spark-3.4.1-bin-hadoop3/bin/spark-submit --class dev.template.spark.CovidDataPartitioner \
 		--packages io.delta:delta-core_2.12:2.4.0 \
