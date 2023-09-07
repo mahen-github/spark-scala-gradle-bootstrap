@@ -4,9 +4,9 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 ## Prerequisites
 
-- [Java](https://java.com/en/download/)
-- [Gradle](https://gradle.org/)
-- [Scala](https://www.scala-lang.org/)
+- [Java 8](https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/macos-install.html)
+- [Scala 2.12](https://www.scala-lang.org/download/2.12.0.html)
+- [spark 3.4.1](https://spark.apache.org/downloads.html)
 
 ## Libraries Included
 
@@ -33,17 +33,19 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 - Runs a `spark-submit` with class `dev.template.spark.RddCollect`
 
-./gradlew sparkSubmit
+      ./gradlew sparkSubmit
 
 #### Spark Submit commands in shell
 
-> A local spark instance must be up and running: http://localhost:8080/
-> spark history server http://localhost:18080/
+> A local spark instance must be up and running
+> - spark web ui http://localhost:8080/
+> - spark history server http://localhost:18080/
 
-#### Run the Main class reads people-example.csv and get the average age
+##### Run the Main class reads people-example.csv and get the average age
 
 	spark-3.4.1-bin-hadoop3/bin/spark-submit \
-		--verbose  --class dev.template.spark.Main \
+		--verbose \
+		--class dev.template.spark.Main \
 		--packages io.delta:delta-core_2.12:2.4.0 \
 		--master spark://localhost:7077 \
 		--driver-memory 1g \
@@ -54,7 +56,8 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 ##### Run a simple app RddCollect with spark session in local
 
-	spark-3.4.1-bin-hadoop3/bin/spark-submit --class dev.template.spark.RddCollect \
+	spark-3.4.1-bin-hadoop3/bin/spark-submit \
+		--class dev.template.spark.RddCollect \
 		--master spark://localhost:7077 \
 		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar
 
