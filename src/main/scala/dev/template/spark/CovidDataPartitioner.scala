@@ -4,8 +4,6 @@ import dev.template.spark.sink.Writer
 import dev.template.spark.source.Reader
 import org.apache.spark.sql.{Dataset, Row, SaveMode, SparkSession}
 
-import java.io.File
-
 object CovidDataPartitioner
     extends App
     with SparkSessionWrapper
@@ -26,7 +24,6 @@ object CovidDataPartitioner
              |  fips,
              |  cases,
              |  deaths from covid
-             |  group by all
              |
              |""".stripMargin)
       .cache()
@@ -54,8 +51,12 @@ object CovidDataPartitioner
     throw new RuntimeException("Requires input file us-counties-recent.csv")
   }
 
-  private val inputFilePath = new File(args(0)).toString
-  private val outputPath = new File(args(1)).toString
+  var inputFilePath = args(0)
+  var outputPath: String = args(1)
+
+  log.info("Input path " + inputFilePath)
+  log.info("Output path " + outputPath)
+
   writeParquet(spark, inputFilePath, outputPath)
 
 }

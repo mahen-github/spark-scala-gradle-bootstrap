@@ -21,14 +21,13 @@ class CovidDataPartitionerTest extends AnyFunSpec with SparkSessionTestWrapper {
 
     it("number of reported_date partitions should be 30") {
 
-
       val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
       val reportedDateFolderCount = fs
         .listStatus(new Path(outputPath),
-          new PathFilter {
-            override def accept(path: Path): Boolean =
-              path.getName.contains("reported_date")
-          })
+                    new PathFilter {
+                      override def accept(path: Path): Boolean =
+                        path.getName.contains("reported_date")
+                    })
         .length
 
       assertEquals(30, reportedDateFolderCount)

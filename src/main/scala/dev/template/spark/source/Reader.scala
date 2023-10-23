@@ -17,10 +17,28 @@ trait Reader {
     .option("inferSchema", true)
     .option("mode", "DROPMALFORMED")
 
-  def readKafka(spark: SparkSession, topic: String, options: Map[String, String]) = spark
-    .read
-    .format("kafka")
-    .options(options)
-    .option("subscribe", topic)
-    .load()
+  def readDelta(spark: SparkSession, path: String, options: Map[String, String] = Map()) =
+    spark.read.format("delta").options(options).load(path)
+
+  /**
+   * Kafka reader requires kafka consumer properties.
+   *
+   * @param spark
+   *   spark session
+   * @param topic
+   *   kafka topic to consume
+   * @param kafkaConfig
+   *   Kafka consumer properties
+   * @return
+   */
+  def readKafka(spark: SparkSession, topic: String, kafkaConfig: Map[String, String] = Map()) =
+    spark
+      .read
+      .format("kafka")
+      .options(kafkaConfig)
+      .option("subscribe", topic)
+      .option("startingOffsets", "earliest")
+      .option("endingOffsets", "latest")
+      .load()
+
 }

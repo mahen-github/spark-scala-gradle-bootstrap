@@ -44,7 +44,7 @@ object Main extends App {
               |""".stripMargin)
     throw new RuntimeException("Requires input file people-example.csv")
   }
-  private val inputFilePath = new File(args(0)).toString
+  private val inputFilePath = args(0)
   val calculateAverageAge = new CalculateAverageAge()
   calculateAverageAge.calculateAverageAge(inputFilePath)
 }

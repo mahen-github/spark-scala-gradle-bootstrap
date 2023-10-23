@@ -31,9 +31,9 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 #### Run sparkSubmit task
 
-- Runs a `spark-submit` with class `dev.template.spark.RddCollect`
+Gradle sparkSubmit task is configured to run with class the `dev.template.spark.RddCollect`
 
-      ./gradlew sparkSubmit
+	./gradlew sparkSubmit
 
 #### Spark Submit commands in shell
 
