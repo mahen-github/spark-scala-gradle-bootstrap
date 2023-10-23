@@ -20,8 +20,8 @@ apply from: "$rootDir/gradle/scoverage.gradle"
 group group
 version version
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 configurations {
 	provided

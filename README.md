@@ -10,12 +10,18 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 ## Libraries Included
 
-- JavaVersion=1.8
+- JavaVersion=1.11
 - sparkVersion=3.4.1
 - scalaVersion=2.12
 - deltaVersion=2.4.0
 
 ### Build
+
+`java -version`
+
+    openjdk version "11.0.20" 2023-07-18
+    OpenJDK Runtime Environment Homebrew (build 11.0.20+0)
+    OpenJDK 64-Bit Server VM Homebrew (build 11.0.20+0, mixed mode)
 
 `./gradlew clean build`
 
