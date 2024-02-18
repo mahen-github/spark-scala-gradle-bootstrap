@@ -4,6 +4,10 @@ import dev.template.spark.sink.Writer
 import dev.template.spark.source.Reader
 import org.apache.spark.sql.{Dataset, Row, SaveMode, SparkSession}
 
+/**
+ * CovidDataPartitioner app reads the covid public data and partitions the data by
+ * reported_date.
+ */
 object CovidDataPartitioner
     extends App
     with SparkSessionWrapper
@@ -35,19 +39,21 @@ object CovidDataPartitioner
   }
 
   if (args.length == 0) {
-    println(""" USAGE :
-              | spark-submit \
-              | --class dev.template.spark.CovidDataPartitioner \
-              | --packages io.delta:delta-core_2.12:2.4.0 \
-              | --master spark://localhost:7077 \
-              | --deploy-mode client \
-              | --driver-memory 1g \
-              | --executor-memory 1g \
-              | --executor-cores 2 \
-              | build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar \
-              | src/main/resources/us-counties-recent.csv \
-              | /tmp/partitioned-covid-data
-              |""".stripMargin)
+    println(
+      """ USAGE :
+        |Add --deploy-mode client and master to spark://localhost:7077  to run in Spark local
+        |
+        | ${SPARK_HOME}/bin/spark-submit \
+        | --class dev.template.spark.CovidDataPartitioner \
+        | --packages io.delta:delta-core_2.12:2.4.0 \
+        | --master "local[2]" \
+        | --driver-memory 1g \
+        | --executor-memory 1g \
+        | --executor-cores 2 \
+        | build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar \
+        | src/main/resources/us-counties-recent.csv \
+        | /tmp/partitioned-covid-data
+        |""".stripMargin)
     throw new RuntimeException("Requires input file us-counties-recent.csv")
   }
 

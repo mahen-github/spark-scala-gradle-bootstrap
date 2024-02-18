@@ -40,6 +40,8 @@ application {
 
 repositories {
 	mavenCentral()
+	// To import kafka confluent dependencies
+	maven { url 'https://packages.confluent.io/maven/' }
 }
 
 dependencies {
@@ -50,6 +52,7 @@ dependencies {
 	implementation "org.apache.spark:spark-catalyst_${scalaVersion}:${sparkVersion}"
 	implementation "org.apache.spark:spark-streaming_${scalaVersion}:${sparkVersion}"
 	implementation "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
+	implementation "org.apache.spark:spark-avro_${scalaVersion}:${sparkVersion}"
 
 	implementation "org.apache.hadoop:hadoop-aws:${hadoopAWS}"
 	implementation "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"

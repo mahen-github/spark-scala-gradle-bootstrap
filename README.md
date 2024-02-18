@@ -4,7 +4,7 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 ## Prerequisites
 
-- [Java 8](https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/macos-install.html)
+- [Java 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
 - [Scala 2.12](https://www.scala-lang.org/download/2.12.0.html)
 - [spark 3.4.1](https://spark.apache.org/downloads.html)
 
@@ -19,9 +19,9 @@ A Spark bootstrap project written in Scala with gradle as build tool.
 
 `java -version`
 
-    openjdk version "11.0.20" 2023-07-18
-    OpenJDK Runtime Environment Homebrew (build 11.0.20+0)
-    OpenJDK 64-Bit Server VM Homebrew (build 11.0.20+0, mixed mode)
+	openjdk version "11.0.20" 2023-07-18
+	OpenJDK Runtime Environment Homebrew (build 11.0.20+0)
+	OpenJDK 64-Bit Server VM Homebrew (build 11.0.20+0, mixed mode)
 
 `./gradlew clean build`
 
@@ -41,15 +41,24 @@ Gradle sparkSubmit task is configured to run with class the `dev.template.spark.
 
 	./gradlew sparkSubmit
 
-#### Spark Submit commands in shell
+## Running spark-submit in `local` mode
 
-> A local spark instance must be up and running
-> - spark web ui http://localhost:8080/
-> - spark history server http://localhost:18080/
+#### Run the Wordcount App
+
+	${SPARK_HOME}/bin/spark-submit \
+		--verbose  \
+		--class dev.template.spark.Main \
+		--packages io.delta:delta-core_2.12:2.4.0 \
+		--master "local[2]" \
+		--driver-memory 1g \
+		--executor-memory 1g \
+		--executor-cores 2 \
+		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar \
+		src/main/resources/people-example.csv \
 
 ##### Run the Main class reads people-example.csv and get the average age
 
-	spark-3.4.1-bin-hadoop3/bin/spark-submit \
+	${SPARK_HOME}/bin/spark-submit \
 		--verbose \
 		--class dev.template.spark.Main \
 		--packages io.delta:delta-core_2.12:2.4.0 \
@@ -62,16 +71,17 @@ Gradle sparkSubmit task is configured to run with class the `dev.template.spark.
 
 ##### Run a simple app RddCollect with spark session in local
 
-	spark-3.4.1-bin-hadoop3/bin/spark-submit \
+	${SPARK_HOME}/bin/spark-submit \
 		--class dev.template.spark.RddCollect \
 		--master spark://localhost:7077 \
 		build/libs/spark-scala-gradle-bootstrap-2.12.0-all.jar
 
 ##### Run CovidDataPartitioner app reads covid deaths in US counties and partitioned by reported date
 
-	spark-3.4.1-bin-hadoop3/bin/spark-submit --class dev.template.spark.CovidDataPartitioner \
+	${SPARK_HOME}/bin/spark-submit \
+		--class dev.template.spark.CovidDataPartitioner \
 		--packages io.delta:delta-core_2.12:2.4.0 \
-		--master spark://localhost:7077 \
+		--master "local[2]" \
 		--driver-memory 1g \
 		--executor-memory 1g \
 		--executor-cores 2 \

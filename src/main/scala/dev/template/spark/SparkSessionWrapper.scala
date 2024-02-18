@@ -9,8 +9,9 @@ trait SparkSessionWrapper extends Logger with AutoCloseable {
     .builder()
     .appName("Spark example")
     .enableHiveSupport()
-    .config("spark.sql.warehouse.dir", "file:///tmp/spark-warehouse")
+    .config("spark.sql.warehouse.dir", "file:///tmp/spark-warehouse") // Change as needed
     .config("spark.sql.parquet.enableVectorizedReader", "false")
+    // Change as needed
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
     .config("spark.sql.catalog.spark_catalog",
             "org.apache.spark.sql.delta.catalog.DeltaCatalog")

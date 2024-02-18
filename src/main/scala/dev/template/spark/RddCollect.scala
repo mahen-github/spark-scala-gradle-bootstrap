@@ -6,7 +6,7 @@ import org.apache.spark.sql.SparkSession
 object RddCollect {
 
   /**
-   * A simple spark application with SparkSession in local mode and creates an RDD, collect and
+   * A sample spark application with SparkSession in local mode and creates an RDD, collect and
    * print the results.
    *
    * @param args
